@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../app/store";
 import { login } from "../../feature/auth/authThunks";
 import { Link, useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -38,40 +39,43 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="login-container">
+      <div className="login-box">
+        <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Usuário</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Usuário</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
 
-        <div>
-          <label>Senha</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+          <div>
+            <label>Senha</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-        <button type="submit">Entrar</button>
+          <button type="submit">Entrar</button>
 
-        <p>
-            Não possui conta? <Link to="/register">Cadastre-se</Link>
-        </p>
-
-        {error && (
-          <p style={{ color: "red" }}>
-            {error}
+          <p>
+            Não possui conta?{" "}
+            <Link to="/register">Cadastre-se</Link>
           </p>
-        )}
-      </form>
+
+          {error && (
+            <p className="login-error">
+              {error}
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

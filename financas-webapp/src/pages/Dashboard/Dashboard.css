@@ -1,0 +1,343 @@
+/* =====================================================
+   DASHBOARD (DARK FINTECH)
+===================================================== */
+
+.dashboard-container {
+  min-height: 100vh;
+  padding: 40px;
+  background: #0b0f17;
+  box-sizing: border-box;
+  color: #e6e6e6;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.dashboard-header p {
+  margin-top: 8px;
+  color: #a9afbf;
+}
+
+.username {
+  color: #6c5ce7;
+  font-weight: 600;
+}
+
+.logout-button {
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 22px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .25s;
+}
+
+.logout-button:hover {
+  background: #e63b3b;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   PRIMEIRA LINHA
+===================================================== */
+
+.top-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* =====================================================
+   CARD DE SALDO
+===================================================== */
+
+.balance-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+}
+
+.card-label {
+  display: block;
+  color: #8b92a5;
+  margin-bottom: 16px;
+  font-size: .95rem;
+}
+
+.balance-card h2 {
+  margin: 0;
+  font-size: 2.7rem;
+  color: #ffffff;
+}
+
+.balance-card small {
+  display: block;
+  margin-top: 14px;
+  color: #8b92a5;
+}
+
+/* =====================================================
+   NOVA TRANSAÇÃO
+===================================================== */
+
+.new-transaction-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: .25s;
+  backdrop-filter: blur(12px);
+}
+
+.new-transaction-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(108, 92, 231, 0.4);
+}
+
+.plus-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.new-transaction-card h3 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.new-transaction-card p {
+  margin-top: 10px;
+  color: #8b92a5;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   RESUMO
+===================================================== */
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+}
+
+.card span {
+  color: #8b92a5;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.card.income h2 {
+  color: #2ecc71;
+}
+
+.card.expense h2 {
+  color: #ff4d4d;
+}
+
+.card.total h2 {
+  color: #6c5ce7;
+}
+
+/* =====================================================
+   TRANSAÇÕES
+===================================================== */
+
+.transactions-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);
+}
+
+.transactions-header h2 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.empty-state {
+  color: #8b92a5;
+  text-align: center;
+  padding: 40px;
+}
+
+/* =====================================================
+   LISTA
+===================================================== */
+
+.transaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 18px;
+  border-radius: 14px;
+
+  transition: .2s;
+  border: 1px solid transparent;
+}
+
+.transaction-item:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+}
+
+.transaction-item strong:first-child {
+  display: block;
+  color: #ffffff;
+}
+
+.transaction-item span {
+  display: block;
+  margin-top: 6px;
+  color: #8b92a5;
+  font-size: .9rem;
+}
+
+.income-text {
+  color: #2ecc71;
+  font-size: 1.1rem;
+}
+
+.expense-text {
+  color: #ff4d4d;
+  font-size: 1.1rem;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.transactions-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.view-all-button {
+  background: #6c5ce7;
+  color: white;
+  text-decoration: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: .25s;
+}
+
+.view-all-button:hover {
+  background: #5a4bd6;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 900px) {
+
+  .dashboard-container {
+    padding: 20px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .top-section {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-card h2 {
+    font-size: 2rem;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .transaction-item strong:last-child {
+    align-self: flex-end;
+  }
+
+}

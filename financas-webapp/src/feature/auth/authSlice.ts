@@ -2,8 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, register } from "./authThunks";
 import type { AuthState } from "./types";
 
+const savedUser = localStorage.getItem("user");
+
 const initialState: AuthState = {
-  user: null,
+  user: savedUser ? JSON.parse(savedUser) : null,
   loading: false,
   error: null,
 };
