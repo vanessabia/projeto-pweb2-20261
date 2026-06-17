@@ -111,3 +111,8 @@ export const selectRecentTransactions = createSelector(
       )
       .slice(0, 5)
 );
+
+export const selectTotalTransactions = createSelector(
+  [selectTransactions],
+  (transactions) => transactions.length
+);

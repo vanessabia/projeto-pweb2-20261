@@ -1,0 +1,168 @@
+/* =====================================================
+   NEW TRANSACTION (FINTECH DARK - LOGIN STYLE)
+===================================================== */
+
+.new-transaction-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #0b0f17;
+  padding: 20px;
+}
+
+/* =====================================================
+   CARD (MESMO PADRÃO DO LOGIN)
+===================================================== */
+
+.new-transaction-box {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 32px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+   TÍTULO
+===================================================== */
+
+.new-transaction-box h1 {
+  color: #ffffff;
+  font-size: 22px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.new-transaction-box .subtitle {
+  font-size: 13px;
+  color: #8b92a5;
+  margin-bottom: 20px;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.new-transaction-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =====================================================
+   LABEL + INPUT
+===================================================== */
+
+.new-transaction-box label {
+  font-size: 13px;
+  color: #8b92a5;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.new-transaction-box input,
+.new-transaction-box select {
+  width: 100%;
+  padding: 12px 14px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #e6e6e6;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.new-transaction-box input:focus,
+.new-transaction-box select:focus {
+  border-color: rgba(108, 92, 231, 0.6);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+/* =====================================================
+   BOTÕES (ATUALIZADO - COMPATÍVEL COM JSX)
+===================================================== */
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.button-group button {
+  flex: 1;
+
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+/* CANCELAR */
+.cancel-button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #8b92a5;
+}
+
+.cancel-button:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+/* SALVAR */
+.submit-button {
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  color: white;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+.tx-error {
+  color: #ff4d4d;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.new-transaction-box select {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #e6e6e6;
+}
+
+/* OPÇÕES DO DROPDOWN */
+.new-transaction-box select option {
+  background-color: #111827; /* fundo escuro */
+  color: #e6e6e6;            /* texto claro */
+}

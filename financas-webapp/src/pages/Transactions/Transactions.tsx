@@ -7,6 +7,7 @@ import {
   selectTransactions,
   selectTransactionsLoading,
 } from "../../feature/transactions/transactionsSlice";
+import "./Transactions.css";
 
 export default function Transactions() {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,36 +20,97 @@ export default function Transactions() {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>Transações</h1>
-      <button onClick={() => navigate("/transactions/new")}>Nova Transação</button>
+    <div className="transactions-container">
 
-      {loading && <p>Carregando...</p>}
+      {/* HEADER */}
+      <div className="transactions-header">
 
-      <table>
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Tipo</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((t) => (
-            <tr key={t.id}>
-              <td>{t.date}</td>
-              <td>{t.description ?? "-"}</td>
-              <td>{t.categoryName}</td>
-              <td>{t.type === "INCOME" ? "Receita" : "Despesa"}</td>
-              <td style={{ color: t.type === "INCOME" ? "green" : "red" }}>
-                R$ {t.amount.toFixed(2)}
-              </td>
+        <div>
+          <h1>Transações</h1>
+          <p>Histórico completo das suas movimentações</p>
+        </div>
+
+        <button
+          className="back-button"
+          onClick={() => navigate("/")}
+        >
+          ← Dashboard
+        </button>
+        
+        <button
+          className="new-transaction-btn"
+          onClick={() => navigate("/transactions/new")}
+        >
+          + Nova Transação
+        </button>
+
+      </div>
+
+      {/* LOADING */}
+      {loading && <p className="loading">Carregando...</p>}
+
+      {/* TABLE */}
+      <div className="table-wrapper">
+
+        <table className="transactions-table">
+
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th>Tipo</th>
+              <th>Valor</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {transactions.map((t) => (
+              <tr key={t.id}>
+
+                <td>
+                  {new Date(t.date).toLocaleDateString("pt-BR")}
+                </td>
+
+                <td>
+                  {t.description ?? "-"}
+                </td>
+
+                <td>
+                  {t.categoryName}
+                </td>
+
+                <td>
+                  <span
+                    className={
+                      t.type === "INCOME"
+                        ? "type-income"
+                        : "type-expense"
+                    }
+                  >
+                    {t.type === "INCOME" ? "Receita" : "Despesa"}
+                  </span>
+                </td>
+
+                <td
+                  className={
+                    t.type === "INCOME"
+                      ? "value-income"
+                      : "value-expense"
+                  }
+                >
+                  {t.type === "INCOME" ? "+" : "-"}
+                  R$ {t.amount.toFixed(2)}
+                </td>
+
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
   );
 }

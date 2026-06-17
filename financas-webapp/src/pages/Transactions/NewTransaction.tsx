@@ -5,6 +5,7 @@ import type { AppDispatch } from "../../app/store";
 import { createTransaction } from "../../feature/transactions/transactionsThunks";
 import { selectTransactionsLoading, selectTransactionsError } from "../../feature/transactions/transactionsSlice";
 import { api } from "../../services/api";
+import "./NewTransaction.css";
 
 interface Category {
   id: number;
@@ -58,12 +59,26 @@ export default function NewTransaction() {
   }
 
   return (
-    <div>
-      <h1>Nova Transação</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+  <div className="new-transaction-container">
 
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="new-transaction-box">
+
+      <h1>Nova Transação</h1>
+
+      <p className="subtitle">
+        Registre uma receita ou despesa
+      </p>
+
+      {error && (
+        <div className="error-box">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="form">
+
+        {/* VALOR */}
+        <div className="form-group">
           <label>Valor *</label>
           <input
             type="number"
@@ -76,7 +91,8 @@ export default function NewTransaction() {
           />
         </div>
 
-        <div>
+        {/* TIPO */}
+        <div className="form-group">
           <label>Tipo *</label>
           <select name="type" value={form.type} onChange={handleChange}>
             <option value="INCOME">Receita</option>
@@ -84,17 +100,25 @@ export default function NewTransaction() {
           </select>
         </div>
 
-        <div>
+        {/* CATEGORIA */}
+        <div className="form-group">
           <label>Categoria *</label>
-          <select name="categoryId" value={form.categoryId} onChange={handleChange}>
+          <select
+            name="categoryId"
+            value={form.categoryId}
+            onChange={handleChange}
+          >
             <option value="">Selecione...</option>
             {categories.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
             ))}
           </select>
         </div>
 
-        <div>
+        {/* DATA */}
+        <div className="form-group">
           <label>Data *</label>
           <input
             type="date"
@@ -104,35 +128,55 @@ export default function NewTransaction() {
           />
         </div>
 
-        <div>
+        {/* DESCRIÇÃO */}
+        <div className="form-group">
           <label>Descrição</label>
           <input
             type="text"
             name="description"
             value={form.description}
             onChange={handleChange}
-            placeholder="Descrição (opcional)"
+            placeholder="Ex: mercado, aluguel..."
           />
         </div>
 
-        <div>
+        {/* TAG */}
+        <div className="form-group">
           <label>Tag</label>
           <input
             type="text"
             name="tag"
             value={form.tag}
             onChange={handleChange}
-            placeholder="Tag (opcional)"
+            placeholder="Ex: fixo, variável..."
           />
         </div>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Salvando..." : "Salvar"}
-        </button>
-        <button type="button" onClick={() => navigate("/transactions")}>
-          Cancelar
-        </button>
+        {/* BOTÕES */}
+        <div className="button-group">
+
+          <button
+            type="button"
+            className="cancel-button"
+            onClick={() => navigate("/transactions")}
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={loading}
+          >
+            {loading ? "Salvando..." : "Salvar transação"}
+          </button>
+
+        </div>
+
       </form>
+
     </div>
-  );
+
+  </div>
+);
 }

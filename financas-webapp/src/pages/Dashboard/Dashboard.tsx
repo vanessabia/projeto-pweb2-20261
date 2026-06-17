@@ -12,6 +12,7 @@ import {
   selectIncome,
   selectExpense,
   selectRecentTransactions,
+  selectTotalTransactions,
 } from "../../feature/transactions/transactionsSlice";
 
 function Dashboard() {
@@ -22,6 +23,7 @@ function Dashboard() {
   const income = useSelector(selectIncome);
   const expense = useSelector(selectExpense);
   const recentTransactions = useSelector(selectRecentTransactions);
+  const TotalTransactions = useSelector(selectTotalTransactions);
 
   const user = useSelector((state: RootState) => state.auth.user);
   const userName = user?.name || user?.username || "Usuário";
@@ -101,7 +103,7 @@ function Dashboard() {
 
         <div className="card total">
           <span>Total Transações</span>
-          <h2>{recentTransactions.length}</h2>
+          <h2>{TotalTransactions}</h2>
         </div>
 
       </section>
