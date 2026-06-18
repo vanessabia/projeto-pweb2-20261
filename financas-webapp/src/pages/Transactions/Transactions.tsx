@@ -57,7 +57,7 @@ export default function Transactions() {
         <input type="text" placeholder="Buscar descrição" value={search} onChange={(e) => setSearch(e.target.value)} />
 
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="">Todas as categorias</option>
+          <option value=""  className="option">Todas as categorias</option>
           {categories.map((cat) => (
             <option key={cat} value={cat} className="option">
               {cat}
