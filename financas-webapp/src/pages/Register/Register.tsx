@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../app/store";
 import { register } from "../../feature/auth/authThunks";
 import { Link, useNavigate } from "react-router-dom";
+import "./Register.css";
 
 function Register() {
   const [name, setName] = useState("");
@@ -40,7 +41,8 @@ function Register() {
   };
 
   return (
-    <div>
+  <div className="register-container">
+    <div className="register-box">
       <h1>Cadastro</h1>
 
       <form onSubmit={handleSubmit}>
@@ -74,18 +76,19 @@ function Register() {
         <button type="submit">Cadastrar</button>
 
         <p>
-            Já possui conta? <Link to="/login">Entrar</Link>
+          Já possui conta?{" "}
+          <Link to="/login">Entrar</Link>
         </p>
 
         {error && (
-          <p style={{ color: "red" }}>
+          <p className="register-error">
             {error}
           </p>
         )}
-
       </form>
     </div>
-  );
+  </div>
+);
 }
 
 export default Register;
