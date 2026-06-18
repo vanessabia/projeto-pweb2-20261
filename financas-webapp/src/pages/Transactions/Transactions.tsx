@@ -48,6 +48,7 @@ export default function Transactions() {
           <p>Lista de transações do usuário</p>
         </div>
         <div>
+          <button className="back-button" onClick={() => navigate("/")}>Voltar</button>
           <button className="new-transaction-btn" onClick={() => navigate("/transactions/new")}>Nova Transação</button>
         </div>
       </div>
