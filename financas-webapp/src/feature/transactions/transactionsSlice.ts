@@ -1,18 +1,57 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { fetchTransactions, createTransaction } from "./transactionsThunks";
-import type { TransactionsState } from "./types";
+import type {
+  TransactionsState,
+  TransactionResponse,
+} from "./types";
 import type { RootState } from "../../app/store";
+
+type TransactionFilters = {
+  description: string;
+  category: string;
+  type: string;
+  startDate: string;
+  endDate: string;
+};
 
 const initialState: TransactionsState = {
   transactions: [],
   loading: false,
   error: null,
+
+  filters: {
+    description: "",
+    category: "",
+    type: "",
+    startDate: "",
+    endDate: "",
+  },
 };
 
 const transactionsSlice = createSlice({
   name: "transactions",
   initialState,
-  reducers: {},
+  reducers: {
+  setDescriptionFilter: (state, action) => {
+    state.filters.description = action.payload;
+  },
+
+  setCategoryFilter: (state, action) => {
+    state.filters.category = action.payload;
+  },
+
+  setTypeFilter: (state, action) => {
+    state.filters.type = action.payload;
+  },
+
+  setStartDateFilter: (state, action) => {
+    state.filters.startDate = action.payload;
+  },
+
+  setEndDateFilter: (state, action) => {
+    state.filters.endDate = action.payload;
+  },
+},
   extraReducers: (builder) => {
     builder
       .addCase(fetchTransactions.pending, (state) => {
@@ -44,6 +83,14 @@ const transactionsSlice = createSlice({
   },
 });
 
+export const {
+  setDescriptionFilter,
+  setCategoryFilter,
+  setTypeFilter,
+  setStartDateFilter,
+  setEndDateFilter,
+} = transactionsSlice.actions;
+
 export default transactionsSlice.reducer;
 
 // SELECTORS RF02
@@ -57,6 +104,19 @@ export const selectTransactionsLoading = (state: RootState) =>
 export const selectTransactionsError = (state: RootState) =>
   state.transactions.error;
 
+export const selectFilters = (state: RootState) => {
+  const transactionsState = state.transactions as TransactionsState & {
+    filters: TransactionFilters;
+  };
+
+  return transactionsState.filters ?? {
+    description: "",
+    category: "",
+    type: "",
+    startDate: "",
+    endDate: "",
+  };
+};
 // SELECTORS RF03
 
 // Transações do mês atual
@@ -115,4 +175,46 @@ export const selectRecentTransactions = createSelector(
 export const selectTotalTransactions = createSelector(
   [selectTransactions],
   (transactions) => transactions.length
+);
+
+export const selectFilteredTransactions = createSelector(
+  [selectTransactions, selectFilters],
+  (transactions, filters) => {
+    return transactions.filter(
+      (transaction: TransactionResponse) => {
+
+        const descriptionMatch =
+          !filters.description ||
+          (transaction.description ?? "")
+            .toLowerCase()
+            .includes(filters.description.toLowerCase());
+
+        const categoryMatch =
+          !filters.category ||
+          transaction.categoryName === filters.category;
+
+        const typeMatch =
+          !filters.type ||
+          transaction.type === filters.type;
+
+        const transactionDate = new Date(transaction.date);
+
+        const startMatch =
+          !filters.startDate ||
+          transactionDate >= new Date(filters.startDate);
+
+        const endMatch =
+          !filters.endDate ||
+          transactionDate <= new Date(filters.endDate);
+
+        return (
+          descriptionMatch &&
+          categoryMatch &&
+          typeMatch &&
+          startMatch &&
+          endMatch
+        );
+      }
+    );
+  }
 );

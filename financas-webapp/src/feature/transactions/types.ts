@@ -18,8 +18,18 @@ export interface TransactionResponse {
   tag?: string;
 }
 
+export interface TransactionFilters {
+  description: string;
+  category: string;
+  type: string;
+  startDate: string;
+  endDate: string;
+}
+
 export interface TransactionsState {
   transactions: TransactionResponse[];
   loading: boolean;
   error: string | null;
+
+  filters: TransactionFilters;
 }
