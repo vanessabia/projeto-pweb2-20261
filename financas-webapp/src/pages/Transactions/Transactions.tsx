@@ -59,16 +59,16 @@ export default function Transactions() {
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Todas as categorias</option>
           {categories.map((cat) => (
-            <option key={cat} value={cat}>
+            <option key={cat} value={cat} className="option">
               {cat}
             </option>
           ))}
         </select>
 
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="">Todos os tipos</option>
-          <option value="INCOME">Receita</option>
-          <option value="EXPENSE">Despesa</option>
+          <option className="option" value="">Todos os tipos</option>
+          <option className="option" value="INCOME">Receita</option>
+          <option className="option" value="EXPENSE">Despesa</option>
         </select>
 
         <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />

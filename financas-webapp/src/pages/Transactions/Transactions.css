@@ -139,6 +139,10 @@
   font-weight: 600;
 }
 
+.option{
+  color: #000000;
+}
+
 /* LOADING */
 
 .loading {
