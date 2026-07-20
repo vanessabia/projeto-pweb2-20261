@@ -1,0 +1,111 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import type { AppDispatch } from "../../app/store";
+
+import { fetchGoals } from "../../feature/goals/goalsThunks";
+import {
+  selectGoals,
+  selectGoalsLoading,
+} from "../../feature/goals/goalsSlice";
+
+import { selectGoalsProgress } from "../../feature/goals/goalSelectors";
+
+import "./Goals.css";
+
+export default function Goals() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const goals = useSelector(selectGoals);
+  const loading = useSelector(selectGoalsLoading);
+  const goalsProgress = useSelector(selectGoalsProgress);
+
+  useEffect(() => {
+    dispatch(fetchGoals());
+  }, [dispatch]);
+
+  return (
+    <div className="goals-container">
+      <div className="goals-header">
+        <div>
+          <h1>Metas Financeiras</h1>
+          <p>Gerencie suas metas de economia</p>
+        </div>
+
+        <div>
+          <button
+            className="back-button"
+            onClick={() => navigate("/")}
+          >
+            Voltar
+          </button>
+
+          <button
+            className="new-goal-btn"
+            onClick={() => navigate("/goals/new")}
+          >
+            Nova Meta
+          </button>
+        </div>
+      </div>
+
+      {loading && <p className="loading">Carregando...</p>}
+
+      <div className="table-wrapper">
+        <table className="goals-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Valor-alvo</th>
+              <th>Data-limite</th>
+              <th>Categoria</th>
+              <th>Progresso</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {goals.map((goal) => {
+              const progress =
+                goalsProgress.find((g) => g.id === goal.id)?.progress ?? 0;
+
+              return (
+                <tr key={goal.id}>
+                  <td>{goal.name}</td>
+
+                  <td>
+                    R$ {goal.targetAmount.toFixed(2)}
+                  </td>
+
+                  <td>{goal.deadline}</td>
+
+                  <td>{goal.categoryId ?? "-"}</td>
+
+                  <td>
+                    <div className="progress-container">
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${progress}%` }}
+                      ></div>
+                    </div>
+
+                    <span className="progress-text">
+                      {progress.toFixed(0)}%
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {!loading && goals.length === 0 && (
+          <p className="empty-message">
+            Nenhuma meta cadastrada.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}

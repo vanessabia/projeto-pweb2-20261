@@ -15,3 +15,17 @@ export const selectGoalProgress =
 
     return Math.min(progress, 100);
   };
+
+export const selectGoalsProgress = (state: RootState) => {
+  const totalIncome = state.transactions.transactions
+    .filter((transaction) => transaction.type === "INCOME")
+    .reduce((total, transaction) => total + Number(transaction.amount), 0);
+
+  return state.goals.goals.map((goal) => ({
+    id: goal.id,
+    progress: Math.min(
+      (totalIncome / goal.targetAmount) * 100,
+      100
+    ),
+  }));
+};

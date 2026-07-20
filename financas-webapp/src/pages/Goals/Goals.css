@@ -1,0 +1,129 @@
+/* =====================================================
+   GOALS (DARK FINTECH)
+===================================================== */
+
+.goals-container {
+  min-height: 100vh;
+  padding: 40px;
+  background: #0b0f17;
+  color: #e6e6e6;
+}
+
+/* HEADER */
+
+.goals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.goals-header h1 {
+  color: #fff;
+  margin: 0;
+}
+
+.goals-header p {
+  color: #8b92a5;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* BOTÃO NOVA META */
+
+.new-goal-btn {
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.new-goal-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+/* TABELA */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+}
+
+.goals-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.goals-table thead {
+  background: rgba(255,255,255,0.05);
+}
+
+.goals-table th {
+  text-align: left;
+  padding: 14px;
+  color: #8b92a5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.goals-table td {
+  padding: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.goals-table tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+/* PROGRESSO */
+
+.progress-container {
+  width: 120px;
+  height: 10px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00b894, #2ecc71);
+  border-radius: 999px;
+  transition: width .3s ease;
+}
+
+.progress-text {
+  font-size: 13px;
+  color: #e6e6e6;
+}
+
+.empty-message {
+  padding: 25px;
+  text-align: center;
+  color: #8b92a5;
+}
+
+.loading {
+  color: #8b92a5;
+}
+
+@media (max-width: 768px) {
+  .goals-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
