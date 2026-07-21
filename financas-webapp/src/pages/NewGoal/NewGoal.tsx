@@ -55,7 +55,7 @@ export default function NewGoal() {
       return;
     }
 
-    await dispatch(
+    const result = await dispatch(
       createGoal({
         name: form.name,
         targetAmount: Number(form.targetAmount),
@@ -66,7 +66,9 @@ export default function NewGoal() {
       })
     );
 
-    navigate("/goals");
+    if (createGoal.fulfilled.match(result)) {
+      navigate("/goals");
+    }
   }
 
   return (

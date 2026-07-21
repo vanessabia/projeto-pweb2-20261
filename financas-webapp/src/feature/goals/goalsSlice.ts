@@ -51,3 +51,18 @@ export const selectGoalsLoading = (state: RootState) =>
 
 export const selectGoalsError = (state: RootState) =>
   state.goals.error;
+
+export const selectGoalProgress =
+  (goalId: number) => (state: RootState): number => {
+    const goal = state.goals.goals.find((g) => g.id === goalId);
+
+    if (!goal) return 0;
+
+    const totalIncome = state.transactions.transactions
+      .filter((t) => t.type === "INCOME")
+      .reduce((sum, t) => sum + Number(t.amount), 0);
+
+    const percent = (totalIncome / goal.targetAmount) * 100;
+
+    return Math.min(percent, 100);
+  };
