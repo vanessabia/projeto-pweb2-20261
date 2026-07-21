@@ -7,7 +7,10 @@ import { createGoal } from "../../feature/goals/goalsThunks";
 import {
   selectGoalsLoading,
   selectGoalsError,
+  selectGoals,
 } from "../../feature/goals/goalsSlice";
+
+import { fetchGoals } from "../../feature/goals/goalsThunks";
 
 import { api } from "../../services/api";
 
@@ -24,19 +27,22 @@ export default function NewGoal() {
 
   const loading = useSelector(selectGoalsLoading);
   const error = useSelector(selectGoalsError);
+  const goals = useSelector(selectGoals);
 
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [form, setForm] = useState({
     name: "",
     targetAmount: "",
+    startDate: "",
     deadline: "",
     categoryId: "",
   });
 
   useEffect(() => {
     api.get("/categories").then((res) => setCategories(res.data));
-  }, []);
+    dispatch(fetchGoals());
+}, [dispatch]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -50,8 +56,22 @@ export default function NewGoal() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!form.name || !form.targetAmount || !form.deadline) {
-      alert("Preencha os campos obrigatórios!");
+    if ( 
+       !form.name ||
+       !form.targetAmount ||
+       !form.startDate ||
+       !form.deadline ||
+       !form.categoryId 
+    ) { alert("Preencha os campos obrigatórios!");
+      return;
+    }
+
+    const categoryExists = goals.some(
+      (goal) => goal.categoryId === Number(form.categoryId)
+    );
+
+    if (categoryExists) {
+      alert("Já existe uma meta cadastrada para essa categoria.");
       return;
     }
 
@@ -59,6 +79,7 @@ export default function NewGoal() {
       createGoal({
         name: form.name,
         targetAmount: Number(form.targetAmount),
+        startDate: form.startDate,
         deadline: form.deadline,
         categoryId: form.categoryId
           ? Number(form.categoryId)
@@ -104,6 +125,17 @@ export default function NewGoal() {
               type="number"
               name="targetAmount"
               value={form.targetAmount}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Data de início *</label>
+
+            <input
+              type="date"
+              name="startDate"
+              value={form.startDate}
               onChange={handleChange}
             />
           </div>

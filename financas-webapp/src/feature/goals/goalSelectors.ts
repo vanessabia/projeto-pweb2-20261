@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../../app/store";
 
 export const selectGoalProgress =
@@ -7,25 +8,44 @@ export const selectGoalProgress =
 
     if (!goal) return 0;
 
-    const totalIncome = state.transactions.transactions
-      .filter((transaction) => transaction.type === "INCOME")
-      .reduce((total, transaction) => total + Number(transaction.amount), 0);
+    const totalSaved = state.transactions.transactions
+      .filter(
+        (transaction) =>
+          transaction.type === "INCOME" &&
+          transaction.categoryId === goal.categoryId &&
+          transaction.date >= goal.startDate
+      )
+      .reduce(
+        (total, transaction) => total + Number(transaction.amount),
+        0
+      );
 
-    const progress = (totalIncome / goal.targetAmount) * 100;
-
-    return Math.min(progress, 100);
+    return Math.min((totalSaved / goal.targetAmount) * 100, 100);
   };
 
-export const selectGoalsProgress = (state: RootState) => {
-  const totalIncome = state.transactions.transactions
-    .filter((transaction) => transaction.type === "INCOME")
-    .reduce((total, transaction) => total + Number(transaction.amount), 0);
+export const selectGoalsProgress = createSelector(
+  [
+    (state: RootState) => state.goals.goals,
+    (state: RootState) => state.transactions.transactions,
+  ],
+  (goals, transactions) => {
+    return goals.map((goal) => {
+      const totalSaved = transactions
+        .filter(
+          (transaction) =>
+            transaction.type === "INCOME" &&
+            transaction.categoryId === goal.categoryId &&
+            transaction.date >= goal.startDate
+        )
+        .reduce(
+          (total, transaction) => total + Number(transaction.amount),
+          0
+        );
 
-  return state.goals.goals.map((goal) => ({
-    id: goal.id,
-    progress: Math.min(
-      (totalIncome / goal.targetAmount) * 100,
-      100
-    ),
-  }));
-};
+      return {
+        id: goal.id,
+        progress: Math.min((totalSaved / goal.targetAmount) * 100, 100),
+      };
+    });
+  }
+);

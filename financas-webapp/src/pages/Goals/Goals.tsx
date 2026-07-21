@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchTransactions } from "../../feature/transactions/transactionsThunks";
 
 import type { AppDispatch } from "../../app/store";
 
@@ -22,8 +23,17 @@ export default function Goals() {
   const loading = useSelector(selectGoalsLoading);
   const goalsProgress = useSelector(selectGoalsProgress);
 
+  const transactions = useSelector(
+    (state: any) => state.transactions.transactions
+  );
+
+  console.log("Goals:", goals);
+  console.log("Transactions:", transactions);
+  console.log("Progress:", goalsProgress);
+  
   useEffect(() => {
     dispatch(fetchGoals());
+    dispatch(fetchTransactions());
   }, [dispatch]);
 
   return (
@@ -80,7 +90,7 @@ export default function Goals() {
 
                   <td>{goal.deadline}</td>
 
-                  <td>{goal.categoryId ?? "-"}</td>
+                  <td>{goal.categoryName ?? "-"}</td>
 
                   <td>
                     <div className="progress-container">
