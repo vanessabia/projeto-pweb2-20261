@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchGoals, createGoal } from "./goalsThunks";
+import { fetchGoals, createGoal, updateGoal, deleteGoal, } from "./goalsThunks";
 import type { GoalsState } from "./types";
 import type { RootState } from "../../app/store";
 
@@ -38,6 +38,20 @@ const goalsSlice = createSlice({
       .addCase(createGoal.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Erro ao criar meta";
+      })
+      .addCase(updateGoal.fulfilled, (state, action) => {
+        const index = state.goals.findIndex(
+          (goal) => goal.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.goals[index] = action.payload;
+        }
+      })
+      .addCase(deleteGoal.fulfilled, (state, action) => {
+        state.goals = state.goals.filter(
+          (goal) => goal.id !== action.payload
+        );
       });
   },
 });

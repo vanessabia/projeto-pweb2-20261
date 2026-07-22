@@ -13,7 +13,8 @@ export const selectGoalProgress =
         (transaction) =>
           transaction.type === "INCOME" &&
           transaction.categoryId === goal.categoryId &&
-          transaction.date >= goal.startDate
+          transaction.date >= goal.startDate &&
+          transaction.date <= goal.deadline
       )
       .reduce(
         (total, transaction) => total + Number(transaction.amount),
@@ -35,7 +36,8 @@ export const selectGoalsProgress = createSelector(
           (transaction) =>
             transaction.type === "INCOME" &&
             transaction.categoryId === goal.categoryId &&
-            transaction.date >= goal.startDate
+            transaction.date >= goal.startDate &&
+            transaction.date <= goal.deadline
         )
         .reduce(
           (total, transaction) => total + Number(transaction.amount),

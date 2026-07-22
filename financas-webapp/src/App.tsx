@@ -8,6 +8,7 @@ import NewTransaction from "./pages/Transactions/NewTransaction";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Goals from "./pages/Goals/Goals";
 import NewGoal from "./pages/NewGoal/NewGoal";
+import EditGoal from "./pages/EditGoal/EditGoal";
 
 function App() {
   return (
@@ -56,6 +57,15 @@ function App() {
               <NewGoal />
             </ProtectedRoute>
          }
+        />
+
+        <Route
+          path="/goals/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditGoal />
+            </ProtectedRoute>
+          }  
         />
 
         <Route path="/login" element={<Login />} />

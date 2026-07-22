@@ -5,11 +5,8 @@ import { fetchTransactions } from "../../feature/transactions/transactionsThunks
 
 import type { AppDispatch } from "../../app/store";
 
-import { fetchGoals } from "../../feature/goals/goalsThunks";
-import {
-  selectGoals,
-  selectGoalsLoading,
-} from "../../feature/goals/goalsSlice";
+import { fetchGoals, deleteGoal, } from "../../feature/goals/goalsThunks";
+import { selectGoals, selectGoalsLoading, } from "../../feature/goals/goalsSlice";
 
 import { selectGoalsProgress } from "../../feature/goals/goalSelectors";
 
@@ -22,6 +19,18 @@ export default function Goals() {
   const goals = useSelector(selectGoals);
   const loading = useSelector(selectGoalsLoading);
   const goalsProgress = useSelector(selectGoalsProgress);
+
+  const handleDelete = async (id: number) => {
+   const confirmDelete = window.confirm(
+     "Deseja realmente excluir esta meta?"
+   );
+
+   if (!confirmDelete) return;
+
+   await dispatch(deleteGoal(id));
+
+   dispatch(fetchGoals());
+  };
 
   const transactions = useSelector(
     (state: any) => state.transactions.transactions
@@ -72,6 +81,7 @@ export default function Goals() {
               <th>Data-limite</th>
               <th>Categoria</th>
               <th>Progresso</th>
+              <th>Ações</th>
             </tr>
           </thead>
 
@@ -103,6 +113,24 @@ export default function Goals() {
                     <span className="progress-text">
                       {progress.toFixed(0)}%
                     </span>
+                  </td>
+
+                  <td>
+                    <div className="actions">
+                      <button
+                        className="edit-btn"
+                        onClick={() => navigate(`/goals/edit/${goal.id}`)}
+                      >
+                        Editar
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(goal.id)}
+                      >
+                        Excluir
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

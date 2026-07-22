@@ -86,6 +86,18 @@ function Dashboard() {
           </p>
         </Link>
 
+         <Link to="/goals" className="new-goal-card">
+            <div className="plus-icon">+</div>
+
+            <h3>Nova Meta Financeira</h3>
+
+            <p>
+              Gerenciar
+              <br />
+              metas de economia
+            </p>
+        </Link>
+
       </section>
 
       {/* RESUMO */}
