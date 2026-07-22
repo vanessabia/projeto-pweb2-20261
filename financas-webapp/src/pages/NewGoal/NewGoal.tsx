@@ -105,7 +105,7 @@ export default function NewGoal() {
 
         {error && <div className="error-box">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} className="form" arial-label="new-goal-form">
 
           <div className="form-group">
             <label>Nome *</label>

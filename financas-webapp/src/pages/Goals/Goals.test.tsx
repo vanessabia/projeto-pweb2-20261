@@ -47,6 +47,7 @@ describe("Goals", () => {
               id: 1,
               name: "Comprar Notebook",
               targetAmount: 5000,
+              startDate: "2026-07-22",
               deadline: "2026-12-31",
               categoryId: 1,
             },
