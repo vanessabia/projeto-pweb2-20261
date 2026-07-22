@@ -6,6 +6,9 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Transactions from "./pages/Transactions/Transactions";
 import NewTransaction from "./pages/Transactions/NewTransaction";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Goals from "./pages/Goals/Goals";
+import NewGoal from "./pages/NewGoal/NewGoal";
+import EditGoal from "./pages/EditGoal/EditGoal";
 
 function App() {
   return (
@@ -36,6 +39,33 @@ function App() {
               <NewTransaction />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/goals"
+          element={
+            <ProtectedRoute>
+              <Goals />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/goals/new"
+          element={
+            <ProtectedRoute>
+              <NewGoal />
+            </ProtectedRoute>
+         }
+        />
+
+        <Route
+          path="/goals/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditGoal />
+            </ProtectedRoute>
+          }  
         />
 
         <Route path="/login" element={<Login />} />

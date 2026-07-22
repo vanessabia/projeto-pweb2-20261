@@ -60,7 +60,7 @@
 
 .top-section {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 24px;
   margin-bottom: 32px;
 }
@@ -147,6 +147,45 @@
 }
 
 .new-transaction-card p {
+  margin-top: 10px;
+  color: #8b92a5;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* =====================================================
+   NOVA META
+===================================================== */
+
+.new-goal-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 28px;
+  text-decoration: none;
+  color: inherit;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  transition: .25s;
+  backdrop-filter: blur(12px);
+}
+
+.new-goal-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(108, 92, 231, 0.4);
+}
+
+.new-goal-card h3 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.new-goal-card p {
   margin-top: 10px;
   color: #8b92a5;
   text-align: center;
