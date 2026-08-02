@@ -5,6 +5,8 @@ import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Transactions from "./pages/Transactions/Transactions";
 import NewTransaction from "./pages/Transactions/NewTransaction";
+import SpendingLimits from "./pages/SpendingLimits/SpendingLimits";
+import NewSpendingLimit from "./pages/SpendingLimits/NewSpendingLimit";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
@@ -34,6 +36,24 @@ function App() {
           element={
             <ProtectedRoute>
               <NewTransaction />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/spending-limits"
+          element={
+            <ProtectedRoute>
+              <SpendingLimits />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/spending-limits/new"
+          element={
+            <ProtectedRoute>
+              <NewSpendingLimit />
             </ProtectedRoute>
           }
         />

@@ -23,7 +23,7 @@ function Dashboard() {
   const income = useSelector(selectIncome);
   const expense = useSelector(selectExpense);
   const recentTransactions = useSelector(selectRecentTransactions);
-  const TotalTransactions = useSelector(selectTotalTransactions);
+  const totalTransactions = useSelector(selectTotalTransactions);
 
   const user = useSelector((state: RootState) => state.auth.user);
   const userName = user?.name || user?.username || "Usuário";
@@ -46,7 +46,6 @@ function Dashboard() {
 
   return (
     <div className="dashboard-container">
-
       {/* HEADER */}
       <header className="dashboard-header">
         <div>
@@ -58,14 +57,26 @@ function Dashboard() {
           </p>
         </div>
 
-        <button className="logout-button" onClick={handleLogout}>
-          Sair
-        </button>
+        <div className="dashboard-actions">
+          <Link
+            to="/spending-limits"
+            className="spending-limits-button"
+          >
+            Limites de gastos
+          </Link>
+
+          <button
+            type="button"
+            className="logout-button"
+            onClick={handleLogout}
+          >
+            Sair
+          </button>
+        </div>
       </header>
 
       {/* SALDO + NOVA TRANSAÇÃO */}
       <section className="top-section">
-
         <div className="balance-card">
           <span className="card-label">Saldo Atual</span>
 
@@ -74,7 +85,10 @@ function Dashboard() {
           <small>Disponível</small>
         </div>
 
-        <Link to="/transactions/new" className="new-transaction-card">
+        <Link
+          to="/transactions/new"
+          className="new-transaction-card"
+        >
           <div className="plus-icon">+</div>
 
           <h3>Nova Transação</h3>
@@ -85,12 +99,10 @@ function Dashboard() {
             ou despesa
           </p>
         </Link>
-
       </section>
 
       {/* RESUMO */}
       <section className="summary">
-
         <div className="card income">
           <span>Receitas</span>
           <h2>{formatCurrency(income)}</h2>
@@ -103,14 +115,12 @@ function Dashboard() {
 
         <div className="card total">
           <span>Total Transações</span>
-          <h2>{TotalTransactions}</h2>
+          <h2>{totalTransactions}</h2>
         </div>
-
       </section>
 
       {/* TRANSAÇÕES */}
       <section className="transactions-card">
-
         <div className="transactions-header">
           <h2>Últimas Transações</h2>
         </div>
@@ -122,10 +132,11 @@ function Dashboard() {
         ) : (
           <>
             <ul className="transaction-list">
-
               {recentTransactions.map((transaction) => (
-                <li key={transaction.id} className="transaction-item">
-
+                <li
+                  key={transaction.id}
+                  className="transaction-item"
+                >
                   <div>
                     <strong>
                       {transaction.description || "Sem descrição"}
@@ -136,7 +147,9 @@ function Dashboard() {
                         ? "Receita"
                         : "Despesa"}{" "}
                       •{" "}
-                      {new Date(transaction.date).toLocaleDateString("pt-BR")}
+                      {new Date(
+                        transaction.date
+                      ).toLocaleDateString("pt-BR")}
                     </span>
                   </div>
 
@@ -150,23 +163,21 @@ function Dashboard() {
                     {transaction.type === "INCOME" ? "+" : "-"}
                     {formatCurrency(transaction.amount)}
                   </strong>
-
                 </li>
               ))}
-
             </ul>
 
             <div className="transactions-footer">
-              <Link to="/transactions" className="view-all-button">
+              <Link
+                to="/transactions"
+                className="view-all-button"
+              >
                 Ver todas as transações
               </Link>
             </div>
-
           </>
         )}
-
       </section>
-
     </div>
   );
 }
