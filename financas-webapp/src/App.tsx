@@ -5,10 +5,15 @@ import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Transactions from "./pages/Transactions/Transactions";
 import NewTransaction from "./pages/Transactions/NewTransaction";
-import ProtectedRoute from "./routes/ProtectedRoute";
+
 import Goals from "./pages/Goals/Goals";
 import NewGoal from "./pages/NewGoal/NewGoal";
 import EditGoal from "./pages/EditGoal/EditGoal";
+
+import SpendingLimits from "./pages/SpendingLimits/SpendingLimits";
+import NewSpendingLimit from "./pages/SpendingLimits/NewSpendingLimit";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
@@ -56,7 +61,7 @@ function App() {
             <ProtectedRoute>
               <NewGoal />
             </ProtectedRoute>
-         }
+          }
         />
 
         <Route
@@ -65,7 +70,25 @@ function App() {
             <ProtectedRoute>
               <EditGoal />
             </ProtectedRoute>
-          }  
+          }
+        />
+
+        <Route
+          path="/spending-limits"
+          element={
+            <ProtectedRoute>
+              <SpendingLimits />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/spending-limits/new"
+          element={
+            <ProtectedRoute>
+              <NewSpendingLimit />
+            </ProtectedRoute>
+          }
         />
 
         <Route path="/login" element={<Login />} />
