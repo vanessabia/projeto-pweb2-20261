@@ -15,14 +15,18 @@ createRoot(document.getElementById("root")!).render(
 );
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/spending-limits-sw.js")
-      .then(() => {
-        console.log("Service Worker registrado com sucesso.");
-      })
-      .catch((error) => {
-        console.error("Erro ao registrar o Service Worker:", error);
-      });
-  });
+  navigator.serviceWorker
+    .register("/sw.js", { scope: "/" })
+    .then((registration) => {
+      console.log(
+        "SW registrado:",
+        registration.scope
+      );
+    })
+    .catch((error) => {
+      console.error(
+        "Erro ao registrar o SW:",
+        error
+      );
+    });
 }
