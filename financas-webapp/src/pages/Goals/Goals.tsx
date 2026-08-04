@@ -56,7 +56,7 @@ export default function Goals() {
         <div>
           <button
             className="back-button"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
           >
             Voltar
           </button>

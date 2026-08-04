@@ -32,7 +32,7 @@ function Login() {
         })
       ).unwrap();
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Erro ao fazer login", error);
     }

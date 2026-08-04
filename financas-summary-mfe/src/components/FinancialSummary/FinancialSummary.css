@@ -1,0 +1,44 @@
+.financial-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.financial-summary-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+.financial-summary-card span {
+  display: block;
+  margin-bottom: 12px;
+  color: #8b92a5;
+}
+
+.financial-summary-card h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.financial-summary-income h2 {
+  color: #2ecc71;
+}
+
+.financial-summary-expense h2 {
+  color: #ff4d4d;
+}
+
+.financial-summary-total h2 {
+  color: #6c5ce7;
+}
+
+@media (max-width: 900px) {
+  .financial-summary {
+    grid-template-columns: 1fr;
+  }
+}
