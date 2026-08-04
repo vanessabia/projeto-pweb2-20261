@@ -414,3 +414,9 @@
     align-self: flex-end;
   }
 }
+
+.financial-summary-loading {
+  margin-bottom: 32px;
+  padding: 24px;
+  color: #8b92a5;
+}

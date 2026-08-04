@@ -1,4 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import OfflineBanner from "./components/OfflineBanner/OfflineBanner";
 
@@ -23,8 +28,15 @@ function App() {
       <OfflineBanner />
 
       <Routes>
+        {/* Ao acessar a URL inicial, vai para o login */}
         <Route
           path="/"
+          element={<Navigate to="/login" replace />}
+        />
+
+        {/* Dashboard protegido */}
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
@@ -95,8 +107,15 @@ function App() {
           }
         />
 
+        {/* Rotas públicas */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Qualquer rota inexistente volta para o login */}
+        <Route
+          path="*"
+          element={<Navigate to="/login" replace />}
+        />
       </Routes>
     </BrowserRouter>
   );

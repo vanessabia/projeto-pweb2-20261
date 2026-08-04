@@ -15,7 +15,7 @@ function SpendingLimits() {
 
         <div className="spending-limits-actions">
           <Link
-            to="/"
+            to="/dashboard"
             className="spending-limits-back"
           >
             Voltar ao Dashboard
