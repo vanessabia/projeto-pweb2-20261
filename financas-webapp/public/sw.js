@@ -4,21 +4,33 @@
  * Responsabilidades:
  *  - Cache First para  GET /categories  e  GET /spending-limits
  *  - Network First (com fallback em cache) para  GET /transactions
- *  - Página de fallback offline para navegações que falharem por falta de rede
+ *  - Cache em tempo de execução do "app shell" (HTML de navegação + JS/CSS/
+ *    módulos da própria aplicação), para que rotas da SPA (ex.: /transactions,
+ *    /spending-limits) continuem renderizando ao dar F5 estando offline —
+ *    a página de offline só é usada quando não existe NENHUM shell cacheado
+ *    ainda (ex.: primeiríssima visita ao app já offline)
  *  - Recebimento de mensagens da aplicação para exibir Web Notifications
  *    quando um limite de gastos atinge >= 80%
  *
  * Observação: os requisitos de estratégia de cache (cache-first / network-first)
- * se aplicam apenas às rotas listadas abaixo. Demais requisições (auth, goals,
- * criação/edição de recursos via POST/PUT/DELETE, etc.) seguem o comportamento
- * padrão do navegador, sem interceptação.
+ * se aplicam apenas às rotas de API listadas abaixo. Demais requisições da API
+ * (auth, goals, criação/edição de recursos via POST/PUT/DELETE, etc.) seguem o
+ * comportamento padrão do navegador, sem interceptação.
  */
 
-const SW_VERSION = "v2";
+const SW_VERSION = "v3";
 const STATIC_CACHE_NAME = `financas-static-${SW_VERSION}`;
 const API_CACHE_NAME = `financas-api-${SW_VERSION}`;
 
 const OFFLINE_URL = "/offline.html";
+
+// Chave fixa (não é uma URL real) usada para guardar a última navegação bem
+// sucedida como "app shell" genérico. Como é uma SPA, o HTML de "/",
+// "/transactions" ou "/spending-limits" é o mesmo documento — só muda a rota
+// que o React Router renderiza no cliente a partir da URL. Por isso um único
+// shell cacheado serve de fallback para qualquer rota, mesmo uma nunca
+// visitada diretamente via reload antes.
+const APP_SHELL_KEY = "/__app-shell__";
 
 // Precisa bater com a baseURL configurada em src/services/api.ts
 const API_ORIGIN = "http://localhost:8080";
@@ -178,9 +190,16 @@ async function networkFirst(request) {
   }
 }
 
-// Navegação (troca de página / recarregamento): tenta rede, cai para offline.html.
+// Navegação (troca de página / recarregamento): tenta rede; se estiver
+// online, cacheia a resposta (tanto na URL exata quanto como "app shell"
+// genérico). Se falhar por falta de rede, tenta servir a própria rota já
+// cacheada antes, depois o shell genérico de qualquer navegação anterior
+// (a SPA renderiza a rota certa no cliente a partir da URL) e só em último
+// caso — quando não há NENHUM shell em cache — cai para offline.html.
 async function navigationFallback(request) {
   console.log(`[SW ${SW_VERSION}] navegação interceptada:`, request.url);
+  const cache = await caches.open(STATIC_CACHE_NAME);
+
   try {
     // no-store é essencial aqui: sem isso, o navegador pode responder com uma
     // cópia em cache HTTP do index.html mesmo estando offline, e o app real
@@ -188,10 +207,34 @@ async function navigationFallback(request) {
     // em vez de cair no fallback abaixo.
     const response = await fetch(request, NO_HTTP_CACHE);
     console.log(`[SW ${SW_VERSION}] navegação respondida pela rede (você está online)`);
+
+    if (response && response.ok) {
+      cache.put(request, response.clone());
+      cache.put(APP_SHELL_KEY, response.clone());
+    }
+
     return response;
   } catch (error) {
-    console.log(`[SW ${SW_VERSION}] navegação falhou na rede, tentando offline.html em cache...`, error);
-    const cache = await caches.open(STATIC_CACHE_NAME);
+    console.log(`[SW ${SW_VERSION}] navegação falhou na rede, tentando servir a SPA do cache...`, error);
+
+    // 1) Essa rota exata já foi carregada (via navegação real) antes.
+    const exactMatch = await cache.match(request);
+    if (exactMatch) {
+      console.log(`[SW ${SW_VERSION}] servindo ${request.url} do cache (match exato)`);
+      return exactMatch;
+    }
+
+    // 2) Nenhum cache para essa rota específica, mas existe um shell de
+    // outra navegação anterior — serve ele; como é a mesma SPA, o React
+    // Router renderiza a rota certa a partir da URL atual do navegador.
+    const shell = await cache.match(APP_SHELL_KEY);
+    if (shell) {
+      console.log(`[SW ${SW_VERSION}] nenhum cache para essa rota — servindo app shell genérico`);
+      return shell;
+    }
+
+    // 3) Último recurso: nenhum shell cacheado ainda (ex.: primeira visita
+    // já offline) — aí sim mostramos a página de offline dedicada.
     const offlinePage = await cache.match(OFFLINE_URL);
 
     if (!offlinePage) {
@@ -203,6 +246,34 @@ async function navigationFallback(request) {
 
     console.log(`[SW ${SW_VERSION}] servindo offline.html do cache`);
     return offlinePage;
+  }
+}
+
+// Assets estáticos da própria aplicação (JS, CSS, módulos ES do Vite,
+// ícones, etc.): Network First com cache em tempo de execução. Sem isso, o
+// HTML da SPA até pode ser servido offline pelo navigationFallback acima,
+// mas os módulos que ele referencia (main.tsx e toda a árvore de imports)
+// falhariam ao carregar offline, resultando em tela em branco.
+async function staticAssetStrategy(request) {
+  const cache = await caches.open(STATIC_CACHE_NAME);
+
+  try {
+    const networkResponse = await fetch(request);
+
+    // Respostas 206 (Partial Content) não podem ser guardadas na Cache API.
+    if (networkResponse && networkResponse.status === 200) {
+      cache.put(request, networkResponse.clone());
+    }
+
+    return networkResponse;
+  } catch (error) {
+    const cachedResponse = await cache.match(request);
+
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    throw error;
   }
 }
 
@@ -238,21 +309,30 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
 
-  if (url.origin !== API_ORIGIN) {
+  if (url.origin === API_ORIGIN) {
+    if (CACHE_FIRST_ROUTES.includes(url.pathname)) {
+      event.respondWith(cacheFirst(request));
+      return;
+    }
+
+    if (NETWORK_FIRST_ROUTES.includes(url.pathname)) {
+      event.respondWith(networkFirst(request));
+      return;
+    }
+
+    // Demais rotas da API (ex.: /goals, /auth) não são interceptadas.
     return;
   }
 
-  if (CACHE_FIRST_ROUTES.includes(url.pathname)) {
-    event.respondWith(cacheFirst(request));
+  if (url.origin === self.location.origin) {
+    // JS, CSS, módulos do Vite, ícones etc. da própria aplicação — ver
+    // staticAssetStrategy acima.
+    event.respondWith(staticAssetStrategy(request));
     return;
   }
 
-  if (NETWORK_FIRST_ROUTES.includes(url.pathname)) {
-    event.respondWith(networkFirst(request));
-    return;
-  }
-
-  // Demais rotas da API (ex.: /goals, /auth) não são interceptadas.
+  // Recursos de terceiros (ex.: o remoteEntry.js do microfrontend em
+  // localhost:5001) seguem o comportamento padrão do navegador por enquanto.
 });
 
 /* ------------------------------------------------------------------ */
