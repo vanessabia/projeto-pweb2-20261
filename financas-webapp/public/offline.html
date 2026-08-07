@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Você está offline — Finanças</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --background: #0b0f17;
+        --surface: rgba(255, 255, 255, 0.04);
+        --border: rgba(255, 255, 255, 0.08);
+        --primary: #6c5ce7;
+        --primary-hover: #5a4bd6;
+        --success: #2ecc71;
+        --danger: #ff4d4d;
+        --text: #e6e6e6;
+        --text-secondary: #8b92a5;
+        --radius: 16px;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: Inter, "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(
+            circle at top,
+            rgba(108, 92, 231, 0.12),
+            transparent 55%
+          ),
+          var(--background);
+        color: var(--text);
+        padding: 24px;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 420px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 40px 32px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 77, 77, 0.12);
+        border-radius: 50%;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin-bottom: 12px;
+      }
+
+      p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 20px 0 4px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 77, 77, 0.1);
+        color: var(--danger);
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .status .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .status.online {
+        background: rgba(46, 204, 113, 0.1);
+        color: var(--success);
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      button,
+      a.btn {
+        font: inherit;
+        cursor: pointer;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-weight: 600;
+        transition: 0.25s ease;
+        text-decoration: none;
+        display: block;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="icon">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#ff4d4d"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+          <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+          <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+          <line x1="12" y1="20" x2="12.01" y2="20"></line>
+        </svg>
+      </div>
+
+      <h1>Você está sem conexão</h1>
+
+      <p>Não foi possível carregar esta página porque você está offline.</p>
+      <p>
+        Categorias, limites de gastos e transações já visitados continuam
+        disponíveis em cache.
+      </p>
+
+      <div id="status" class="status">
+        <span class="dot"></span>
+        <span id="status-text">Sem conexão</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="retry-btn" type="button">
+          Tentar novamente
+        </button>
+        <a class="btn btn-secondary" href="/">Voltar ao início</a>
+      </div>
+    </div>
+
+    <script>
+      var statusEl = document.getElementById("status");
+      var statusText = document.getElementById("status-text");
+      var retryBtn = document.getElementById("retry-btn");
+
+      function updateStatus() {
+        if (navigator.onLine) {
+          statusEl.classList.add("online");
+          statusText.textContent = "Conexão restabelecida";
+        } else {
+          statusEl.classList.remove("online");
+          statusText.textContent = "Sem conexão";
+        }
+      }
+
+      window.addEventListener("online", function () {
+        updateStatus();
+        window.location.reload();
+      });
+
+      window.addEventListener("offline", updateStatus);
+
+      retryBtn.addEventListener("click", function () {
+        window.location.reload();
+      });
+
+      updateStatus();
+    </script>
+  </body>
+</html>

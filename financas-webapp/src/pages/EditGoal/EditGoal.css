@@ -1,0 +1,78 @@
+/* =====================================================
+   EDIT GOAL
+===================================================== */
+
+.edit-goal-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0b0f17;
+  padding: 20px;
+}
+
+.edit-goal-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.06);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+
+.edit-goal-box h1 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #8b92a5;
+  margin-bottom: 20px;
+}
+
+.edit-goal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edit-goal-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #8b92a5;
+}
+
+.edit-goal-box input,
+.edit-goal-box select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: #e6e6e6;
+  outline: none;
+  transition: .2s;
+}
+
+.edit-goal-box input:focus,
+.edit-goal-box select:focus {
+  border-color: rgba(108,92,231,.6);
+  box-shadow: 0 0 0 3px rgba(108,92,231,.15);
+}
+
+.edit-goal-box select option {
+  background: #111827;
+  color: #e6e6e6;
+}
+
+.error-box {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-bottom: 15px;
+  text-align: center;
+}

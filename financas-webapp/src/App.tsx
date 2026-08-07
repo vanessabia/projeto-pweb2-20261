@@ -1,18 +1,42 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import OfflineBanner from "./components/OfflineBanner/OfflineBanner";
 
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Transactions from "./pages/Transactions/Transactions";
 import NewTransaction from "./pages/Transactions/NewTransaction";
+
+import Goals from "./pages/Goals/Goals";
+import NewGoal from "./pages/NewGoal/NewGoal";
+import EditGoal from "./pages/EditGoal/EditGoal";
+
+import SpendingLimits from "./pages/SpendingLimits/SpendingLimits";
+import NewSpendingLimit from "./pages/SpendingLimits/NewSpendingLimit";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
+      <OfflineBanner />
+
       <Routes>
+        {/* Ao acessar a URL inicial, vai para o login */}
         <Route
           path="/"
+          element={<Navigate to="/login" replace />}
+        />
+
+        {/* Dashboard protegido */}
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
@@ -38,8 +62,60 @@ function App() {
           }
         />
 
+        <Route
+          path="/goals"
+          element={
+            <ProtectedRoute>
+              <Goals />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/goals/new"
+          element={
+            <ProtectedRoute>
+              <NewGoal />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/goals/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditGoal />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/spending-limits"
+          element={
+            <ProtectedRoute>
+              <SpendingLimits />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/spending-limits/new"
+          element={
+            <ProtectedRoute>
+              <NewSpendingLimit />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Rotas públicas */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Qualquer rota inexistente volta para o login */}
+        <Route
+          path="*"
+          element={<Navigate to="/login" replace />}
+        />
       </Routes>
     </BrowserRouter>
   );

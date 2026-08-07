@@ -1,0 +1,209 @@
+.spending-limits-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: #0b0f17;
+  color: #e6e6e6;
+  box-sizing: border-box;
+}
+
+.spending-limits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.spending-limits-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+.spending-limits-header p {
+  margin: 8px 0 0;
+  color: #8b92a5;
+}
+
+.spending-limits-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.spending-limits-link {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.spending-limits-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.spending-limits-back {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #d1d5db;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.spending-limits-back:hover {
+  border-color: #6c5ce7;
+  color: #ffffff;
+}
+
+.spending-limits-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.spending-limit-card {
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.spending-limit-card h3 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: 1.25rem;
+}
+
+.spending-limit-card p {
+  color: #a9afbf;
+}
+
+.spending-limit-delete {
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px 16px;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  border-radius: 11px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.spending-limit-delete:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.spending-limit-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.spending-limits-message {
+  padding: 30px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8b92a5;
+  text-align: center;
+}
+
+.spending-limits-error {
+  padding: 14px;
+  border-radius: 12px;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.spending-limit-form-container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.spending-limit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.spending-limit-form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: #a9afbf;
+  font-size: 14px;
+}
+
+.spending-limit-form-group input,
+.spending-limit-form-group select {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111827;
+  color: #e6e6e6;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.spending-limit-form-group input:focus,
+.spending-limit-form-group select:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.spending-limit-submit {
+  padding: 13px 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.spending-limit-submit:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.spending-limit-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 700px) {
+  .spending-limits-page {
+    padding: 24px 18px;
+  }
+
+  .spending-limits-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .spending-limits-actions,
+  .spending-limits-link,
+  .spending-limits-back {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
